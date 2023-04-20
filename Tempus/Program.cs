@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Tempus.Data;
+using Tempus.Repositorio;
+
 namespace Tempus
 {
     public class Program
@@ -8,6 +12,10 @@ namespace Tempus
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddEntityFrameworkSqlServer()
+                .AddDbContext<BancoContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DataBase")));
+
+            builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 
             var app = builder.Build();
 

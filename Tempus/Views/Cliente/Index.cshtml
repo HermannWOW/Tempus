@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<ClienteModel>
+@{
     ViewData["Title"] = "Clientes";
 }
 
@@ -10,10 +11,11 @@
     <br />
     <h1 class="display-4">Clientes</h1>
     
-    <table class="table">
+    <table class="table" id="tableClientes">
         <thead>
             <tr>
                 <th scope="col">#</th>
+
                 <th scope="col">Nome</th>
                 <th scope="col">CPF</th>
                 <th scope="col">Data de nascimento</th>
@@ -23,48 +25,37 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Lucas Giraldi</td>
-                <td>123.123.123-12</td>
-                <td>15/11/1990</td>
-                <td>17/04/2023</td>
-                <td>10.000,00</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a role="button" class="btn btn-primary" asp-controller="Cliente" asp-action="Update">Editar</a>
-                        <a role="button" class="btn btn-danger" asp-controller="Cliente" asp-action="Delete">Apagar</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Guilherme Soranzo</td>
-                <td>123.123.123-12</td>
-                <td>15/11/1990</td>
-                <td>17/04/2023</td>
-                <td>12.000,00</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a role="button" class="btn btn-primary" asp-controller="Cliente" asp-action="Update">Editar</a>
-                        <a role="button" class="btn btn-danger" asp-controller="Cliente" asp-action="Delete">Apagar</a>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Victor Hermann</td>
-                <td>123.123.123-12</td>
-                <td>15/11/1990</td>
-                <td>17/04/2023</td>
-                <td>7.000,00</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <a role="button" class="btn btn-primary" asp-controller="Cliente" asp-action="Update">Editar</a>
-                        <a role="button" class="btn btn-danger" asp-controller="Cliente" asp-action="Delete">Apagar</a>
-                    </div>
-                </td>
-            </tr>
+            @if(Model != null && Model.Any())
+            {
+                foreach (ClienteModel c in Model)
+                {
+                    <tr>
+                        <th scope="row">@c.Id</th>
+                        <td>@c.Nome</td>
+                        <td>@c.Cpf</td>
+                        <td>@c.DataNascimento</td>
+                        <td>@c.DataCadastro</td>
+                        @if (@c.RendaFamiliar <= 980)
+                        {
+                            <td><span class="badgeeClasseA">R$ @decimal.Floor(@c.RendaFamiliar)</span></td>
+                        }
+                        else if (@c.RendaFamiliar > 980 && @c.RendaFamiliar <= 2500)
+                        {
+                            <td><span class="badgeeClasseB">R$ @decimal.Floor(@c.RendaFamiliar)</span></td>
+                        }
+                        else
+                        {
+                            <td><span class="badgeeClasseC">R$ @decimal.Floor(@c.RendaFamiliar)</span></td>
+                        }
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a role="button" class="btn btn-primary" asp-route-id="@c.Id" asp-controller="Cliente" asp-action="Update">Editar</a>
+                                <a role="button" class="btn btn-danger" asp-route-id="@c.Id" asp-controller="Cliente" asp-action="Delete">Apagar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 
