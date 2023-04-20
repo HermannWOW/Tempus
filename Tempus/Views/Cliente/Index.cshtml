@@ -5,36 +5,50 @@
 
 <div class="text-center">
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a class="btn btn-primary" role="button" asp-controller="Cliente" asp-action="Create">Novo cliente</a>
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="Cliente" class="d-flex align-items-end" asp-action="Index" method="post">
+                <div >
+                    <label>Informe o nome do cliente</label>
+                    <input name="nomeCliente" class="form-control" >
+                </div>
+                <button class="btn btn-primary margin-left" type="submit">
+                    Buscar
+                </button>
+            </form>
+        </div>
+        <div class="col-md-6 offset-2">
+            <a class="btn btn-primary" role="button" asp-controller="Cliente" asp-action="Create">Novo cliente</a>
+        </div>
     </div>
     <br />
     <h1 class="display-4">Clientes</h1>
-    
+
     <table class="table" id="tableClientes">
         <thead>
             <tr>
                 <th scope="col">#</th>
 
                 <th scope="col">Nome</th>
-                <th scope="col">CPF</th>
+                @*<th scope="col">CPF</th>
                 <th scope="col">Data de nascimento</th>
-                <th scope="col">Data de cadastro</th>
+                <th scope="col">Data de cadastro</th>*@
                 <th scope="col">Renda familiar</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            @if(Model != null && Model.Any())
+            @if (Model != null && Model.Any())
             {
                 foreach (ClienteModel c in Model)
                 {
                     <tr>
                         <th scope="row">@c.Id</th>
                         <td>@c.Nome</td>
-                        <td>@c.Cpf</td>
-                        <td>@c.DataNascimento</td>
-                        <td>@c.DataCadastro</td>
+                        @* <td>@c.Cpf</td>
+                <td>@c.DataNascimento</td>
+                <td>@c.DataCadastro</td>*@
                         @if (@c.RendaFamiliar <= 980)
                         {
                             <td><span class="badgeeClasseA">R$ @decimal.Floor(@c.RendaFamiliar)</span></td>

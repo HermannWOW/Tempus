@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Tempus.Models;
+using Tempus.Repositorio;
 
 namespace Tempus.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IClienteRepositorio _clienteRepositorio;
+        public HomeController(IClienteRepositorio clienteRepositorio)
+        {
+            _clienteRepositorio = clienteRepositorio;
+        }
         public IActionResult Index()
         {
-            return View();
+
+            List<ClienteModel> clientes = _clienteRepositorio.BuscarClientes();
+            return View(clientes);
         }
 
         public IActionResult Privacy()

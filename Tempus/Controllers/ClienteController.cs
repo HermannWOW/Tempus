@@ -17,6 +17,13 @@ namespace Tempus.Controllers
             List<ClienteModel> clientes = _clienteRepositorio.BuscarClientes();
             return View(clientes);
         }
+        [HttpPost]
+        public IActionResult Index(string nomeCliente)
+        {
+            List<ClienteModel> clientes = _clienteRepositorio.BuscarClientes();
+
+            return View(clientes.Where(c=>c.Nome.StartsWith(nomeCliente)).ToList());
+        }
 
         public IActionResult Create()
         {
